@@ -195,26 +195,27 @@ function validation() {
   let salaryBasic = +$("luongCB").value;
   let position = $("chucvu").value;
   let timeWork = +$("gioLam").value;
-
-  // alert(taiKhoanNV);
+  //Tài khoản nhân viên
   var valid = true;
-
+  var checkAccount = /^-?[0-9][0-9,\.]+$/;
   var tbTKNV = $("tbTKNV");
   // Kiểm tra tên tài khoản nhân viên
-  if (!checkInput(account)) {
+  if (!isRequired(account)) {
     valid = false;
-    tbTKNV.innerHTML = "Tài khoản không được để trống";
+    tbTKNV.innerHTML = "Tài khoản là các ký số";
   } else if (!length(account, 6, 4)) {
-    tbTKNV.innerHTML = "Nhập tối thiểu 4-6 kí tự";
+    tbTKNV.innerHTML = "Tài khoản có tối thiểu 4-6 kí tự";
+  } else if (!checkAccount.test(account)) {
+    valid = false;
+    tbTKNV.innerHTML = "Tài khoản là các ký số";
   } else {
     tbTKNV.innerHTML = "";
   }
-
   // kiểm tra tên nhân viên
   var checkName =
     /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
   var tbTen = $("tbTen");
-  if (!checkInput(fullName)) {
+  if (!isRequired(fullName)) {
     valid = false;
     tbTen.innerHTML = "Tên không được để trống";
   } else if (!checkName.test(fullName)) {
@@ -230,7 +231,7 @@ function validation() {
   );
   var tbEmail = $("tbEmail");
 
-  if (!checkInput(email)) {
+  if (!isRequired(email)) {
     valid = false;
     tbEmail.innerHTML = "Điền Email không được để trống";
   } else if (!emailPattern.test(email)) {
@@ -245,7 +246,7 @@ function validation() {
 
   var tbMatKhau = $("tbMatKhau");
 
-  if (!checkInput(password)) {
+  if (!isRequired(password)) {
     valid = false;
     tbMatKhau.innerHTML = "Nhập mật khẩu";
   } else if (!length(password, 10)) {
@@ -259,13 +260,11 @@ function validation() {
   }
 
   // kiểm tra ngày làm
-  var dayPattern = new RegExp(
-    "^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$"
-  );
-
+  var dayPattern =
+    /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/;
   var tbNgay = $("tbNgay");
 
-  if (!checkInput(workingDay)) {
+  if (!isRequired(workingDay)) {
     valid = false;
     tbNgay.innerHTML = "Ngày làm không được để trống";
   } else if (!dayPattern.test(workingDay)) {
@@ -278,7 +277,7 @@ function validation() {
   // kiểm tra lương cơ bản
   var tbLuongCB = $("tbLuongCB");
 
-  if (!checkInput(salaryBasic)) {
+  if (!isRequired(salaryBasic)) {
     valid = false;
     tbLuongCB.innerHTML = "Nhập lương cơ bản";
   } else if (salaryBasic > 20e6 || 1e6 > salaryBasic) {
@@ -290,7 +289,7 @@ function validation() {
 
   // kiểm tra chức vụ
   var tbChucVu = $("tbChucVu");
-  if (!checkInput(position)) {
+  if (!isRequired(position)) {
     valid = false;
     tbChucVu.innerHTML = "Chọn chức vụ";
   } else if (position === "Chọn chức vụ") {
@@ -302,7 +301,7 @@ function validation() {
 
   // kiểm tra giờ làm
   var tbGiolam = $("tbGiolam");
-  if (!checkInput(timeWork)) {
+  if (!isRequired(timeWork)) {
     valid = false;
     tbGiolam.innerHTML = "Nhập giờ làm";
   } else if (timeWork > 200 || timeWork < 80) {
@@ -316,7 +315,7 @@ function validation() {
 }
 
 // hàm kiểm tra input có trống hay không
-function checkInput(value) {
+function isRequired(value) {
   if (!value) {
     return false;
   }
