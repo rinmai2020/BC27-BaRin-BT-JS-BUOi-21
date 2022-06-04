@@ -55,6 +55,7 @@ function addUser() {
   //B3 Hiển thị staff vừa thêm lên trên giao diện table
   //thêm staff vừa tạo mảng staffList;
   staffList.push(staff);
+  resetFormt();
   //B4 Lưu biến staff xuống local storage
   localStorage.setItem("staffList", JSON.stringify(staffList));
   display(staffList);
@@ -79,10 +80,11 @@ function display(staffList) {
       <td>
       <button class = "btn btn-success" onclick = "selectStaff('${
         staff.account
-      }')">Cập nhật</button>
+      }')" data-toggle="modal"
+      data-target="#myModal">Cập nhật</button>
       <button class = "btn btn-danger" onclick = "deleteStaff('${
         staff.account
-      }')">Xoá</button>
+      }')" >Xoá</button>
       </td>
 
     </tr>
@@ -91,6 +93,30 @@ function display(staffList) {
 
   //Đưa nội dung được tao  từ staff vào thẻ html
   tbodyListEl.innerHTML = html;
+}
+function resetFormt() {
+  // reset input
+  document.getElementById("tknv").value = "";
+  document.getElementById("name").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("datepicker").value = "";
+  document.getElementById("luongCB").value = "";
+  document.getElementById("chucvu").value = "";
+  document.getElementById("gioLam").value = "";
+
+  document.getElementById("btnThemNV").disabled = false;
+  document.getElementById("tknv").disabled = false;
+
+  // reset thông báo lỗi
+  document.getElementById("tbTKNV").innerHTML = "";
+  document.getElementById("tbTen").innerHTML = "";
+  document.getElementById("tbEmail").innerHTML = "";
+  document.getElementById("tbMatKhau").innerHTML = "";
+  document.getElementById("tbNgay").innerHTML = "";
+  document.getElementById("tbLuongCB").innerHTML = "";
+  document.getElementById("tbChucVu").innerHTML = "";
+  document.getElementById("tbGiolam").innerHTML = "";
 }
 
 function deleteStaff(staffAccount) {
@@ -197,7 +223,7 @@ function validation() {
   let timeWork = +$("gioLam").value;
   //Tài khoản nhân viên
   var valid = true;
-  var checkAccount = /^-?[0-9][0-9,\.]+$/;
+  var checkAccount = new RegExp("^-?[0-9][0-9,.]+$");
   var tbTKNV = $("tbTKNV");
   // Kiểm tra tên tài khoản nhân viên
   if (!isRequired(account)) {
