@@ -221,22 +221,21 @@ function validation() {
   let salaryBasic = +$("luongCB").value;
   let position = $("chucvu").value;
   let timeWork = +$("gioLam").value;
-  //Tài khoản nhân viên
   var valid = true;
-  var checkAccount = new RegExp("^-?[0-9][0-9,.]+$");
-  var tbTKNV = $("tbTKNV");
+
   // Kiểm tra tên tài khoản nhân viên
+  var checkAccount = /^[0-9]{4,6}$/;
+  var tbTKNV = $("tbTKNV");
   if (!isRequired(account)) {
     valid = false;
     tbTKNV.innerHTML = "Tài khoản là các ký số";
-  } else if (!length(account, 6, 4)) {
-    tbTKNV.innerHTML = "Tài khoản có tối thiểu 4-6 kí tự";
   } else if (!checkAccount.test(account)) {
     valid = false;
-    tbTKNV.innerHTML = "Tài khoản là các ký số";
+    tbTKNV.innerHTML = "Tài khoản có tối thiểu 4-6 kí tự";
   } else {
     tbTKNV.innerHTML = "";
   }
+
   // kiểm tra tên nhân viên
   var checkName =
     /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
@@ -372,6 +371,7 @@ function calcSalary(salaryBasic, position) {
   }
   return total;
 }
+
 //Xếp loại nhân viên
 function getRank(timeWork) {
   var typeRank = "";
